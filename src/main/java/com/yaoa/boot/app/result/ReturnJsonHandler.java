@@ -13,12 +13,12 @@ import java.lang.annotation.Annotation;
  * Json 视图动态过滤
  * Created by cjh on 2017/2/27.
  */
-public class JsonReturnHandler implements HandlerMethodReturnValueHandler{
+public class ReturnJsonHandler implements HandlerMethodReturnValueHandler{
 
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
         // 如果有我们自定义的 Json 注解 就用我们这个Handler 来处理
-       return returnType.getMethodAnnotation(Json.class) != null;
+       return returnType.getDeclaringClass() == Result.class || returnType.getMethodAnnotation(Json.class) != null;
     }
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
@@ -28,7 +28,7 @@ public class JsonReturnHandler implements HandlerMethodReturnValueHandler{
         // 获得注解并执行filter方法 最后返回
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
         Annotation[] annos = returnType.getMethodAnnotations();
-        CustomerJsonSerializer jsonSerializer = new CustomerJsonSerializer();
+        ResultJsonSerializer jsonSerializer = new ResultJsonSerializer();
         for (Annotation a : annos) {
             if (a instanceof Json) {
                 Json Json = (Json) a;

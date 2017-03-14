@@ -29,7 +29,7 @@ public class UserController {
 		user.setId(12L);
 		user.setPassword("2333223");
 		user.setUsername("sdaf112");
-		Result result = Result.SUCCESS;
+		Result result = Result.success();
 		result.putData("user", user);
 		return result;
 	}

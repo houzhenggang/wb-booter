@@ -13,13 +13,13 @@ import java.text.SimpleDateFormat;
  * 自定义JSON序列化器
  * Created by cjh on 2017/2/27.
  */
-public class CustomerJsonSerializer extends ObjectMapper {
+public class ResultJsonSerializer extends ObjectMapper {
 
     static final String DYNC_INCLUDE = "DYNC_INCLUDE";
 
     static final String DYNC_EXCLUDE = "DYNC_EXCLLUDE";
 
-    public CustomerJsonSerializer() {
+    public ResultJsonSerializer() {
         //不序列化空对象
         disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         //序列化日期时以timestamps输出，默认true，

@@ -2,6 +2,7 @@ package com.yaoa.boot.app.resolver;
 
 import com.yaoa.boot.app.exception.ApplicationException;
 import com.yaoa.boot.app.form.Form;
+import com.yaoa.boot.app.result.Result;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -50,11 +51,9 @@ public class FormArgumentResolver extends AbstractMessageConverterMethodArgument
      * @throws Exception
      */
 	@Override
-	public Object resolveArgument(MethodParameter parameter,
-			ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
+	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {
-		ServletServerHttpRequest inputMessage = createInputMessage(webRequest);
-		Object value = readWithMessageConverters(inputMessage, parameter, parameter.getParameterType());
+		Object value = this.readWithMessageConverters(webRequest, parameter, parameter.getParameterType());
 		if(value == null){
 			value = parameter.getParameterType().newInstance();
 		}
@@ -62,7 +61,7 @@ public class FormArgumentResolver extends AbstractMessageConverterMethodArgument
 		binder.validate();
 		BindingResult br = binder.getBindingResult();
 		if(br.getFieldErrorCount() > 0){
-			throw new ApplicationException(4000, br.getFieldError().getField() + br.getFieldError().getDefaultMessage());
+			throw new ApplicationException(Result.INVALID_PARAM, br.getFieldError().getField() + br.getFieldError().getDefaultMessage());
 		}
 		return value;
 	}

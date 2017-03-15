@@ -131,5 +131,9 @@ public class Result implements Serializable{
 		data.put(ERROR_MSG_KEY, msg);
 	}
 
+	public Map<String, Object> getData(){
+		return this.data;
+	}
+
 
 }

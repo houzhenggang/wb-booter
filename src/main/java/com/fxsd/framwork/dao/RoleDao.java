@@ -11,4 +11,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleDao extends BaseDao<Role, Long> {
 
+    /**
+     * 根据角色名查询角色
+     * @param name
+     * @return
+     */
+    Role getByName(String name);
+
 }

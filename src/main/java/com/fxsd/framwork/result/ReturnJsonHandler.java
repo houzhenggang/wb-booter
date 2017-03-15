@@ -18,7 +18,7 @@ public class ReturnJsonHandler implements HandlerMethodReturnValueHandler{
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
         // 如果有我们自定义的 Json 注解 就用我们这个Handler 来处理
-       return returnType.getDeclaringClass() == Result.class || returnType.getMethodAnnotation(Json.class) != null;
+       return returnType.getDeclaringClass() == Result.class;
     }
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
@@ -36,7 +36,7 @@ public class ReturnJsonHandler implements HandlerMethodReturnValueHandler{
             }
         }
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        String Json = jsonSerializer.writeValueAsString(returnValue);
+        String Json = jsonSerializer.writeValueAsString(((Result) returnValue).getData());
         response.getWriter().write(Json);
     }
 }
